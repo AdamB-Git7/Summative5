@@ -62,6 +62,9 @@ namespace ImportedScenes.PurlySnowman_A04_20260427_Copy
         // Store the currently playing animator-state hash.
         private int currentStateHash;
 
+        // Tracks the previous-frame grounded value so we can detect a landing transition.
+        private bool wasGroundedLastFrame;
+
         // Store the idle state name.
         private const string IdleStateName = "Idle";
 
@@ -87,6 +90,9 @@ namespace ImportedScenes.PurlySnowman_A04_20260427_Copy
 
             // Prevent 2D physics from rotating Purly on the Z axis.
             rb.freezeRotation = true;
+
+            // Assume Purly starts standing so the first FixedUpdate does not splash on spawn.
+            wasGroundedLastFrame = true;
 
             // Start on the idle state.
             PlayState(IdleStateName, true);
@@ -129,6 +135,7 @@ namespace ImportedScenes.PurlySnowman_A04_20260427_Copy
                 coyoteTimer = 0f;
                 rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
                 PlayState(JumpStateName, true);
+                GameAudio.Instance?.PlayJump();
             }
 
             // Handle Q and E hold spins only while no auto-spin is in progress.
@@ -175,6 +182,15 @@ namespace ImportedScenes.PurlySnowman_A04_20260427_Copy
 
             // Apply horizontal movement while keeping the current vertical velocity.
             rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y);
+
+            // Fire splash + sound when Purly transitions from airborne to grounded.
+            if (isGrounded && !wasGroundedLastFrame)
+            {
+                GameAudio.Instance?.PlaySplash();
+                SplashEffect.Spawn(groundCheck != null ? groundCheck.position : transform.position);
+            }
+
+            wasGroundedLastFrame = isGrounded;
         }
 
         private bool CheckGrounded()
@@ -323,6 +339,12 @@ namespace ImportedScenes.PurlySnowman_A04_20260427_Copy
 
             // Stop all current movement.
             rb.linearVelocity = Vector2.zero;
+
+            // Stop the background gameplay music when the game ends.
+            GameAudio.Instance?.StopMusic();
+
+            // Play the game-over sound effect.
+            GameAudio.Instance?.PlayGameOver();
 
             // Notify the active imported-scene game manager.
             GameManager.Instance?.OnPlayerDied();

@@ -29,10 +29,16 @@ public class PlayerMovement : MonoBehaviour
     // Store whether jump was pressed this frame.
     private bool jumpPressedThisFrame;
 
+    // Tracks the previous-frame grounded value so we can detect a landing transition.
+    private bool wasGroundedLastFrame;
+
     private void Awake()
     {
         // Cache the Rigidbody2D on this object.
         rb = GetComponent<Rigidbody2D>();
+
+        // Assume Purly starts on the ground so the first FixedUpdate does not splash on spawn.
+        wasGroundedLastFrame = true;
     }
 
     private void Update()
@@ -76,11 +82,23 @@ public class PlayerMovement : MonoBehaviour
         // Apply horizontal movement while keeping the current vertical velocity.
         rb.linearVelocity = new Vector2(moveInputX * moveSpeed, rb.linearVelocity.y);
 
+        bool grounded = IsGrounded();
+
         // Apply the jump only when the key was pressed and the player is grounded.
-        if (jumpPressedThisFrame && IsGrounded())
+        if (jumpPressedThisFrame && grounded)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+            GameAudio.Instance?.PlayJump();
         }
+
+        // Fire splash + sound when Purly transitions from airborne to grounded.
+        if (grounded && !wasGroundedLastFrame)
+        {
+            GameAudio.Instance?.PlaySplash();
+            SplashEffect.Spawn(groundCheck != null ? groundCheck.position : transform.position);
+        }
+
+        wasGroundedLastFrame = grounded;
 
         // Clear the one-frame jump flag after the physics tick.
         jumpPressedThisFrame = false;

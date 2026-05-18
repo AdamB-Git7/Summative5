@@ -55,12 +55,15 @@
     <Compile Include="Assets\ImportedScenes\PurlySnowman_A04_20260427_Copy\Scripts\Snowball.cs" />
     <Compile Include="Assets\ImportedScenes\PurlySnowman_A04_20260427_Copy\Scripts\GameManager.cs" />
     <Compile Include="Assets\ImportedScenes\PurlySnowman_A04_20260427_Copy\Scripts\BalloonSpawnPoint.cs" />
+    <Compile Include="Assets\SCripts\RainEffect.cs" />
+    <Compile Include="Assets\SCripts\GameAudio.cs" />
     <Compile Include="Assets\ImportedScenes\PurlySnowman_A04_20260427_Copy\Scripts\InfiniteLevel.cs" />
     <Compile Include="Assets\SCripts\ScoreUtility.cs" />
     <Compile Include="Assets\SCripts\MainMenuController.cs" />
     <Compile Include="Assets\SCripts\PlayerMovement.cs" />
     <Compile Include="Assets\ImportedScenes\PurlySnowman_A04_20260427_Copy\Scripts\CameraFollow.cs" />
     <Compile Include="Assets\ImportedScenes\PurlySnowman_A04_20260427_Copy\Scripts\Balloon.cs" />
+    <Compile Include="Assets\SCripts\SplashEffect.cs" />
     <Compile Include="Assets\ImportedScenes\PurlySnowman_A04_20260427_Copy\Scripts\Waterfall.cs" />
     <Compile Include="Assets\ImportedScenes\PurlySnowman_A04_20260427_Copy\Scripts\SnowGun.cs" />
   </ItemGroup>

@@ -15,7 +15,12 @@
       "PowerShell(Write-Host \"=== Scenes ===\" ; Get-ChildItem -Path \"C:\\\\Users\\\\Adam\\\\UnityProjects\\\\PurlyTheMan\\\\PurlyTheSnowMan\\\\Assets\\\\Scenes\" -Recurse -Force 2>$null | ForEach-Object { if \\($_.PSIsContainer\\) { Write-Host \"[DIR]  $\\($_.FullName\\)\" } else { Write-Host \"[FILE] $\\($_.FullName\\)\" } })",
       "Bash(Get-Content \"C:\\\\Users\\\\Adam\\\\UnityProjects\\\\PurlyTheMan\\\\PurlyTheSnowMan\\\\Assets\\\\ImportedScenes\\\\PurlySnowman_A04_20260427_Copy\\\\TextMesh Pro\\\\Resources\\\\Fonts & Materials\\\\LiberationSans SDF.asset\")",
       "Bash(Select-String \"guid\")",
-      "Bash(Select-Object -First 3)"
+      "Bash(Select-Object -First 3)",
+      "Bash(mkdir -p \"/c/Users/Adam/UnityProjects/PurlyTheMan/PurlyTheSnowMan/Assets/Resources/Audio\")",
+      "Bash(mkdir -p \"/c/Users/Adam/UnityProjects/PurlyTheMan/PurlyTheSnowMan/Assets/Resources/Sprites\")",
+      "Bash(cp \"/c/Users/Adam/UnityProjects/PurlyTheMan/PurlyTheSnowMan/Assets/Summative Assignment 05/Sounds/\"*.mp3 \"/c/Users/Adam/UnityProjects/PurlyTheMan/PurlyTheSnowMan/Assets/Resources/Audio/\")",
+      "Bash(cp \"/c/Users/Adam/UnityProjects/PurlyTheMan/PurlyTheSnowMan/Assets/Summative Assignment 05/rain_drop.png\" \"/c/Users/Adam/UnityProjects/PurlyTheMan/PurlyTheSnowMan/Assets/Resources/Sprites/\")",
+      "Bash(cp \"/c/Users/Adam/UnityProjects/PurlyTheMan/PurlyTheSnowMan/Assets/Summative Assignment 05/water_splash.png\" \"/c/Users/Adam/UnityProjects/PurlyTheMan/PurlyTheSnowMan/Assets/Resources/Sprites/\")"
     ]
   }
 }

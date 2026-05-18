@@ -21,8 +21,17 @@ namespace ImportedScenes.PurlySnowman_A04_20260427_Copy
         // Store the cap used to stop too many balloons from existing at once.
         [SerializeField] private int maxActiveBalloons = 12;
 
+        // Optional explicit sprite for black balloons (otherwise loaded from Resources).
+        [SerializeField] private Sprite blackBalloonSprite;
+
         // Track all balloons that are currently alive.
         private readonly List<GameObject> alive = new();
+
+        // Counts yellow spawns so we can drop a black after every 5.
+        private int yellowSinceLastBlack;
+
+        // Lazy-loaded black sprite when none was assigned in the Inspector.
+        private Sprite cachedBlackSprite;
 
         private void Start()
         {
@@ -71,8 +80,42 @@ namespace ImportedScenes.PurlySnowman_A04_20260427_Copy
                 );
 
                 // Create the balloon and remember it in the alive list.
-                alive.Add(Instantiate(balloonPrefab, point.position + offset, Quaternion.identity));
+                GameObject instance = Instantiate(balloonPrefab, point.position + offset, Quaternion.identity);
+
+                // Decide whether this should become a black balloon. 5 yellow then 1 black.
+                if (yellowSinceLastBlack >= 5)
+                {
+                    Balloon balloon = instance.GetComponent<Balloon>();
+                    if (balloon != null)
+                    {
+                        balloon.SetBlack(GetBlackSprite());
+                    }
+                    yellowSinceLastBlack = 0;
+                }
+                else
+                {
+                    yellowSinceLastBlack++;
+                }
+
+                alive.Add(instance);
             }
+        }
+
+        private Sprite GetBlackSprite()
+        {
+            // Prefer the Inspector-assigned sprite when present.
+            if (blackBalloonSprite != null)
+            {
+                return blackBalloonSprite;
+            }
+
+            // Lazy-load the bundled Resources copy on first use.
+            if (cachedBlackSprite == null)
+            {
+                cachedBlackSprite = Resources.Load<Sprite>("Sprites/Black Balloon");
+            }
+
+            return cachedBlackSprite;
         }
 
         private Transform PickSpawnPoint()

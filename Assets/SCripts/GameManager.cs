@@ -122,6 +122,12 @@ public class GameManager : MonoBehaviour
         // Save the current score to disk.
         SaveScore();
 
+        // Stop the background gameplay music when the game ends.
+        GameAudio.Instance?.StopMusic();
+
+        // Play the game-over sound effect.
+        GameAudio.Instance?.PlayGameOver();
+
         // Notify listeners that the game ended.
         OnGameOver?.Invoke();
     }
